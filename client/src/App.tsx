@@ -1,12 +1,14 @@
 import React from 'react';
 import './assets/style/style.scss'
-import {Header} from "./assets/components/layout/Header";
+import {Header} from "./components/layout/Header";
+import {UserTable} from "./components/UserTable";
 
 
 function App() {
   return (
     <>
         <Header/>
+        <UserTable/>
     </>
   );
 }
