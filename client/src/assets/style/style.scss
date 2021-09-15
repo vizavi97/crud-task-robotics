@@ -1,14 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "reset";
 
-$blue: #112A85;
-$light-blue: #123FDD;
-$gray: #5D606C;
+$white: #fff;
 $gray-bg: #F5F6F9;
-$warning: #FF41327F;
 $gray-button-bg: #E4E6EF;
+$gray-close-btn: #B5C2D2;
 $table-gray: #B7BAC5;
 $table-border: #D5D8E4;
+$label-gray: #ADB0BB;
+$gray: #5D606C;
+$light-blue: #123FDD;
+$blue: #112A85;
+$warning: #FF4132;
+$overlay: rgba(20, 20, 20, .5);
 
 
 body {
@@ -75,9 +79,12 @@ body {
     justify-content: space-between;
 
     &-sort {
-      a {
+      button {
+        cursor: pointer;
         text-decoration: none;
         color: $gray;
+        border: none;
+        background: transparent;
 
         span {
           margin-left: 9px;
@@ -97,25 +104,60 @@ body {
 
   &-table {
     padding-top: 43px;
-    &__name {width: 158px}
-    &__role {width: 133px}
-    &__birthday {width: 119px}
-    &__place {width: 170px}
-    &__email {width: 167px}
-    &__phone {width: 147px}
-    &__register {width: 110px}
-    &__update {width: 92px}
-    &__change {width: 60px; padding: 0}
-    &__delete {width: 60px; padding: 0}
+
+    &__name {
+      width: 158px
+    }
+
+    &__role {
+      width: 133px
+    }
+
+    &__birthday {
+      width: 119px
+    }
+
+    &__place {
+      width: 170px
+    }
+
+    &__email {
+      width: 167px
+    }
+
+    &__phone {
+      width: 147px
+    }
+
+    &__register {
+      width: 110px
+    }
+
+    &__update {
+      width: 92px
+    }
+
+    &__change {
+      width: 60px;
+      padding: 0
+    }
+
+    &__delete {
+      width: 60px;
+      padding: 0
+    }
+
     &_empty {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 50px 20px;
     }
+
     table {
       width: 100%;
     }
+
     tr {
       display: flex;
       border-radius: 8px;
@@ -123,25 +165,30 @@ body {
       margin-bottom: 12px;
       height: 60px;
     }
-    td,th {
+
+    td, th {
       padding: 20px 12px;
       white-space: nowrap;
     }
+
     th {
       font-size: 12px;
       font-weight: bold;
       color: $table-gray;
     }
+
     td {
       border-right: 1px solid $table-border;
       font-size: 14px;
       display: flex;
       align-items: center;
       color: $gray;
+
       &:last-of-type {
         border-right: none;
       }
     }
+
     button {
       display: flex;
       width: 60px;
@@ -153,6 +200,7 @@ body {
       cursor: pointer;
       justify-content: center;
       align-items: center;
+
       &:hover {
         path {
           fill: $light-blue;
@@ -169,4 +217,218 @@ body {
   font-size: 32px;
   font-weight: bold;
   color: $table-gray;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+
+  &-overlay {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background: $overlay;
+  }
+
+  &-window {
+    position: relative;
+    max-height: calc(100vh - 120px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1216px;
+  }
+
+  &-content {
+    position: relative;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 60px 80px;
+    background: #FFFFFF;
+    box-shadow: 0px 10px 20px rgba(69, 73, 106, 0.2);
+    border-radius: 20px;
+
+    h1 {
+      color: $blue;
+    }
+
+    &__close {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      width: 20px;
+      height: 20px;
+      z-index: 2;
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+
+    }
+
+    &__form {
+      max-width: 560px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__footer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        & > div:first-of-type {
+          margin-right: 16px;
+        }
+
+        & > div:last-of-type {
+          margin-left: 16px;
+        }
+      }
+    }
+  }
+}
+
+.input {
+  max-width: 560px;
+  width: 100%;
+  margin: 10px 0;
+
+  & .react-datepicker-popper {
+    z-index: 3;
+  }
+
+  &.input-invalid {
+    input {
+      border: 1px solid $warning;
+    }
+    p {
+      color: $warning;
+    }
+  }
+
+  &.input-date {
+    input {
+      width: 100%;
+    }
+
+    span {
+      z-index: 2;
+    }
+  }
+
+  &-date {
+    &__icon {
+      position: absolute;
+      right: 20px;
+      bottom: 12px;
+      color: $label-gray;
+    }
+  }
+
+  label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 100%;
+
+    span {
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      font-size: 10px;
+      color: $label-gray;
+    }
+  }
+
+  input {
+    padding: 24px 19px 8px;
+    background: #FFFFFF;
+    border: 1px solid #D5D8E4;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: $gray;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $light-blue;
+    }
+
+    &:disabled {
+      background: #5D606C20;
+    }
+  }
+}
+
+.select {
+  max-width: 560px;
+  width: 100%;
+  margin: 10px 0;
+
+  label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 100%;
+
+    span {
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      font-size: 10px;
+      color: $label-gray;
+    }
+  }
+
+  select {
+    padding: 24px 19px 8px;
+    background: #FFFFFF;
+    border: 1px solid #D5D8E4;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: $gray;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $light-blue;
+    }
+
+    &:disabled {
+      background: #5D606C20;
+    }
+  }
+}
+
+.btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: $light-blue;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  color: $white;
+  padding: 20px 14px;
+
+  &:hover {
+    background: $blue;
+
+  }
 }

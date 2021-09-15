@@ -1,5 +1,5 @@
 import React from 'react'
-import {User} from "../store/interfaces/user";
+import {Role, User} from "../store/interfaces/user";
 import {convertDate} from "../helpers/date.helper";
 import {useDispatch} from "react-redux";
 import {deleteUser} from "../store/action/user.action";
@@ -28,7 +28,7 @@ export const TableRow: React.FC<TableRowInterface> = ({
     return (
         <tr>
             <td className={"content-table__name"}>{number + " " + surname + " " + name[0].toUpperCase() + "." + middleName[0].toUpperCase() + "."}</td>
-            <td className={"content-table__role"}>{role.title}</td>
+            <td className={"content-table__role"}>{(role as Role).title}</td>
             <td className={"content-table__birthday"}>{convertDate(birthday)}</td>
             <td className={"content-table__place"}>{birthPlace}</td>
             <td className={"content-table__email"}>{email}</td>

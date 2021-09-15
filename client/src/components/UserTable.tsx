@@ -1,17 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {getUsers} from "../store/action/user.action";
+import React, { useState} from 'react'
+import {RootStateOrAny, useSelector} from "react-redux";
 import {User} from "../store/interfaces/user";
 import {TableRow} from "./TableRow";
 
 export const UserTable: React.FC = () => {
-    const dispatch = useDispatch()
     const [isSorted, setIsSorted] = useState<boolean>(false)
     const {users, loader} = useSelector((selector: RootStateOrAny) => selector.user)
-    useEffect(() => {
-        dispatch(getUsers())
-    }, [dispatch])
-    console.log('users')
 
     return (
         <div className={'content'}>
@@ -19,11 +13,11 @@ export const UserTable: React.FC = () => {
                 {Boolean(users.length) && !loader && <>
                     <div className={'content-header'}>
                         <div className={'content-header-sort'}>
-                            <a href='#' onClick={() => setIsSorted(state => !state)}>
+                            <button onClick={() => setIsSorted(state => !state)}>
                                 Сортировать от А до Я
                                 {isSorted && <span>&uarr;</span>}
                                 {!isSorted && <span>&darr;</span>}
-                            </a>
+                            </button>
                         </div>
                         <div className={'content-header-count'}>
                             <p>Всего пользователей: <span>{users.length}</span></p>
