@@ -26,7 +26,7 @@ export const UserTable: React.FC = () => {
                     <div className={'content-table'}>
                         <table>
                             <thead>
-                            <tr>
+                            <tr className={"content-table__row"}>
                                 <th className={"content-table__name"}>№ ФИО пользователя</th>
                                 <th className={"content-table__role"}>Роль</th>
                                 <th className={"content-table__birthday"}>Дата рождения</th>

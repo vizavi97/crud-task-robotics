@@ -1,34 +1,37 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react'
 import {InputField} from "./ui/InputField";
-import {CreateUserType, Role} from "../store/interfaces/user";
+import {CreateUserType, Role, User} from "../store/interfaces/user";
 import {convertDate} from "../helpers/date.helper";
-import {DatePickerField} from "./ui/DatePickerField";
-import "react-datepicker/dist/react-datepicker.css";
-import {ModalWindow} from "./ui/ModalWindow";
-import {SelectField} from "./ui/SelectField";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
+import {ModalWindow} from "./ui/ModalWindow";
 import {submitFormValidator} from "../helpers/form.validator";
-import {createUser} from "../store/action/user.action";
+import {updateUser} from "../store/action/user.action";
+import {DatePickerField} from "./ui/DatePickerField";
+import {SelectField} from "./ui/SelectField";
 
 
-export const CreateRecord: React.FC = () => {
+export const UpdateWindow: React.FC = () => {
     const dispatch = useDispatch()
     const [error, setError] = useState<null | string>(null)
     const [disable, setDisable] = useState<boolean>(false)
-    const {userRoles} = useSelector((selector: RootStateOrAny) => selector.user)
-    const [user, setUser] = useState<CreateUserType>({
-        surname: "",
-        name: "",
-        middleName: "",
-        birthday: Date(),
-        birthPlace: "",
-        email: "",
-        phoneNumber: "",
-        role: userRoles[0]
+    const {activeUserId, userRoles} = useSelector((state: RootStateOrAny) => state.user)
+    const [user, setUser] = useState<User>({
+        id: activeUserId.id,
+        name: activeUserId.name,
+        surname: activeUserId.surname,
+        middleName: activeUserId.middleName,
+        birthday: activeUserId.birthday,
+        birthPlace: activeUserId.birthPlace,
+        email: activeUserId.email,
+        phoneNumber: activeUserId.phoneNumber,
+        registerDate: activeUserId.registerDate,
+        lastUpdate: activeUserId.lastUpdate,
+        role: activeUserId.role
     })
+
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target
-        setUser((state: CreateUserType) => ({
+        setUser(state => ({
             ...state,
             [name]: value
         }))
@@ -46,14 +49,15 @@ export const CreateRecord: React.FC = () => {
         } else {
             setDisable(() => true)
             setError(null)
-            dispatch(createUser(user))
+            dispatch(updateUser(user))
             setDisable(() => false)
         }
     }
+
     return (
         <ModalWindow>
             <div className={'modal-content'}>
-                <h1>Создание записи</h1>
+                <h1>Изменение пользователя</h1>
                 <form className={"modal-content__form"} onSubmit={submitHandler}>
                     <InputField
                         type={"text"}
@@ -123,6 +127,28 @@ export const CreateRecord: React.FC = () => {
                         value={user.phoneNumber}
                         disabled={disable}
                     />
+
+                    <div className={"modal-content__form__footer"}>
+                        <InputField
+                            type={"text"}
+                            label={"Дата Регистрации"}
+                            placeholder={"Дата Регистрации"}
+                            onChange={event => changeHandler(event)}
+                            name={'registerDate'}
+                            value={convertDate(user.registerDate) as string}
+                            disabled
+                        />
+                        <InputField
+                            type={"text"}
+                            label={"Последние изменение"}
+                            placeholder={"Последние изменение"}
+                            onChange={event => changeHandler(event)}
+                            name={'lastUpdate'}
+                            value={convertDate(user.lastUpdate) as string}
+                            disabled
+                        />
+                    </div>
+
                     {error && <div><p className={"invalid-text"}>{error}</p></div>}
                     <button type={"submit"} className={'btn'} disabled={disable}>
                         Сохранить изменения в профиле

@@ -6,13 +6,15 @@ interface InputFieldInterface {
     name: string;
     value: string;
     label: string;
+    disabled: boolean
 }
 
 export const DatePickerField: React.FC<InputFieldInterface> = ({
                                                                    onChange,
                                                                    label,
                                                                    value,
-                                                                   name
+                                                                   name,
+    disabled= false
                                                                }) => {
     return <div className={"input input-date"}>
         <label>
@@ -25,6 +27,7 @@ export const DatePickerField: React.FC<InputFieldInterface> = ({
                 showMonthDropdown
                 showYearDropdown
                 adjustDateOnChange
+                disabled={disabled}
             />
             <div className={"input-date__icon"}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

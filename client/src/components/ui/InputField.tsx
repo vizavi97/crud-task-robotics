@@ -1,5 +1,5 @@
 import React, {ChangeEvent, CSSProperties, FocusEvent, HTMLInputTypeAttribute, useState} from 'react'
-import {formValidator} from "../../helpers/form.validator";
+import {blurFormValidator} from "../../helpers/form.validator";
 import {User} from "../../store/interfaces/user";
 
 interface InputFieldInterface {
@@ -34,7 +34,7 @@ export const InputField: React.FC<InputFieldInterface> = ({
     })
     const blurEvent = (event: FocusEvent<HTMLInputElement>) => {
         const {name,value} = event.target
-        const validationError = formValidator(name,value)
+        const validationError = blurFormValidator(name,value)
         if(validationError) {
             setError(() => ({status: true, message: validationError}))
         }

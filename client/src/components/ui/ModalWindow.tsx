@@ -1,13 +1,12 @@
 import React, {useEffect, useRef} from 'react'
-import {hideCreateModal} from "../../store/action/user.action";
+import {hideAllUserWindows} from "../../store/action/user.action";
 import {useDispatch} from "react-redux";
 
 
 export const ModalWindow: React.FC = ({children}) => {
     const dispatch = useDispatch()
-
     const overlayRef = useRef(null)
-    const closeModalHandler = () => dispatch(hideCreateModal())
+    const closeModalHandler = () => dispatch(hideAllUserWindows())
     const handleClickOutside = (event: Event) => overlayRef.current === event.target ? closeModalHandler() : {}
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -20,8 +19,8 @@ export const ModalWindow: React.FC = ({children}) => {
                 <div className={'modal-overlay'} ref={overlayRef}>
                     <div className={'modal-window'}>
                         <button type={"button"}
-                           className={'modal-content__close'}
-                           onClick={closeModalHandler}
+                                className={'modal-content__close'}
+                                onClick={closeModalHandler}
                         >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
